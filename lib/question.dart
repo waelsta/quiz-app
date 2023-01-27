@@ -4,8 +4,7 @@ import './answer.dart';
 
 class Question extends StatelessWidget {
   final String questionText;
-  final List<String> answers;
-  const Question(this.questionText, this.answers);
+  const Question(this.questionText);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,6 @@ class Question extends StatelessWidget {
           margin: EdgeInsets.all(10),
           width: double.infinity,
         ),
-        ...answers.map((answer) => Answer(answer)),
       ],
     );
   }

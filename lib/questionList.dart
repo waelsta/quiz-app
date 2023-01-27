@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-import './answer.dart';
 import './question.dart';
+import './answer.dart';
 
 class QuestionList extends StatefulWidget {
   const QuestionList();
@@ -12,26 +12,26 @@ class QuestionList extends StatefulWidget {
 
 class _QuestionListState extends State<QuestionList> {
   int _questionIdx = 0;
-  var questions = [
-    {
-      'questionText': 'who is Tunisia President',
-      'answers': ['Kais Saied', 'El Sebsi', 'El Marzouki', 'Joe Biden']
-    },
-    {
-      'quesitonText': 'who is Wael Sta',
-      'answers': ['software developer', 'some random dude']
-    },
-    {
-      'questionText': 'what is javascript',
-      'answers': [
-        'a front end language',
-        'a scripting language',
-        'i dont know'
-      ],
-    }
-  ];
-
-  void onAnswerSelected() {
+  Map<String, List<String>> questions = {
+    'who is Tunisia President': [
+      'Kais Saied',
+      'El Sebsi',
+      'El Marzouki',
+      'Joe Biden'
+    ],
+    'who is Wael Sta': [
+      'software developer',
+      'some random dude',
+      'dslkj',
+      'sldkjf'
+    ],
+    'what is javascript': [
+      'a front end language',
+      'a scripting language',
+      'i dont know'
+    ],
+  };
+  void _onAnswerSelected() {
     if (_questionIdx < questions.length - 1) {
       setState(() {
         _questionIdx++;
@@ -47,8 +47,10 @@ class _QuestionListState extends State<QuestionList> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Question(questions[_questionIdx]['questionText'],
-            questions[_questionIdx]['answers'])
+        Question(questions.keys.elementAt(_questionIdx)),
+        ...questions.values
+            .elementAt(_questionIdx)
+            .map((e) => Answer(e, _onAnswerSelected)),
       ],
     );
   }

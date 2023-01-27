@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 
 class Answer extends StatelessWidget {
   final String answerText;
-  const Answer(this.answerText);
+  final VoidCallback onAnswerSelected;
+  const Answer(this.answerText, this.onAnswerSelected);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+        width: double.infinity,
         child: ElevatedButton(
-      child: Text(answerText),
-      onPressed: () => print(answerText),
-    ));
+          child: Text(answerText),
+          onPressed: onAnswerSelected,
+        ));
   }
 }
