@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:flutter/widgets.dart';
 
 import './question.dart';
 import './answer.dart';
+import './result.dart';
 
 class QuestionList extends StatefulWidget {
   const QuestionList();
@@ -14,48 +13,57 @@ class QuestionList extends StatefulWidget {
 
 class _QuestionListState extends State<QuestionList> {
   int _questionIdx = 0;
-  var questions = [
+  int _score = 0;
+  final _questions = const [
     {
-      'questionText': 'who is Tunisia President',
-      'answers': ['Kais Saied', 'El Sebsi', 'El Marzouki', 'Joe Biden'],
-      'correctAnswer': 'Kais Saied'
-    },
-    {
-      'questionText': 'who is Wael Sta',
-      'answers': ['software developer', 'some random dude', 'dslkj', 'sldkjf'],
-      'correctAnswer': 'software developer'
-    },
-    {
-      'questionText': 'what is javascript',
+      'questionText': 'What is your favorite pet ?',
       'answers': [
-        'a front end language',
-        'a scripting language',
-        'i dont know'
+        {'text': 'Hamster', 'score': 5},
+        {'text': 'Cat', 'score': 4},
+        {'text': 'Dog', 'score': 7},
+        {'text': 'Rabbit', 'score': 3},
       ],
-      'correctAnswer': 'a scripting language'
+    },
+    {
+      'questionText': 'What is your favorite Anime ?',
+      'answers': [
+        {'text': 'HxH', 'score': 10},
+        {'text': 'One Piece', 'score': 5},
+        {'text': 'Naruto', 'score': 9},
+      ],
+    },
+    {
+      'questionText': 'What is your favorite Movie ?',
+      'answers': [
+        {'text': 'The Godfather', 'score': 6},
+        {'text': 'American Psycho', 'score': 8},
+        {'text': '***** **** 1999', 'score': 11},
+      ],
     },
   ];
-  void _onAnswerSelected() {
-    if (_questionIdx < questions.length - 1) {
-      //if(questions[_questionIdx]['correctAnswer'])
-      setState(() {
-        _questionIdx++;
-      });
-    } else {
-      setState(() {
-        _questionIdx = 0;
-      });
-    }
+
+  void _onAnswerSelected(int score) {
+    setState(() {
+      _questionIdx++;
+    });
+    _score += score;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Question(questions[_questionIdx]['questionText']),
-        ...(questions[_questionIdx]['answers'] as List<String>)
-            .map((ans) => Answer(ans, _onAnswerSelected))
-      ],
-    );
+    return _questionIdx < _questions.length
+        ? Column(
+            children: [
+              Question(_questions[_questionIdx]['questionText']),
+              ...(_questions[_questionIdx]['answers']
+                      as List<Map<String, Object>>)
+                  .map((ans) => Answer(
+                      ans['text'], () => _onAnswerSelected(ans['score'])))
+                  .toList()
+            ],
+          )
+        : Result(
+            score: _score,
+          );
   }
 }
