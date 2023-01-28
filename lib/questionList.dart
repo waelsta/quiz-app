@@ -49,6 +49,13 @@ class _QuestionListState extends State<QuestionList> {
     _score += score;
   }
 
+  void _resetQuiz() {
+    setState(() {
+      _questionIdx = 0;
+    });
+    _score = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return _questionIdx < _questions.length
@@ -64,6 +71,7 @@ class _QuestionListState extends State<QuestionList> {
           )
         : Result(
             score: _score,
+            resetQuiz: _resetQuiz,
           );
   }
 }
